@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>F1 Ticket Booking</title>
+<title>RaceX Tickets</title>
 
 <style>
 *{
@@ -14,72 +14,96 @@
 }
 
 body{
-    background:#111;
+    background:#0f0f0f;
     color:white;
 }
 
+/* Header */
+
 header{
-    background:#e10600;
-    padding:20px 60px;
+    width:100%;
+    height:80px;
+    background:#2a2a2a;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    padding:0 60px;
+    position:fixed;
+    top:0;
+    z-index:1000;
 }
 
 .logo{
-    font-size:32px;
+    font-size:30px;
     font-weight:bold;
+    color:white;
 }
 
 nav a{
-    color:white;
     text-decoration:none;
-    margin-left:25px;
-    font-weight:bold;
+    color:white;
+    margin-left:30px;
+    font-size:17px;
+    transition:.3s;
 }
+
+nav a:hover{
+    color:#bfbfbf;
+}
+
+/* Hero */
 
 .hero{
-    height:85vh;
-    background:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80") center/cover;
+    height:100vh;
+    background:url("hero.jpg") center center/cover no-repeat;
     display:flex;
-    justify-content:center;
     align-items:center;
+    padding-left:70px;
 }
 
-.overlay{
+.hero-content{
     background:rgba(0,0,0,.65);
-    padding:50px;
+    padding:40px;
     border-radius:15px;
-    text-align:center;
+    width:450px;
 }
 
-.overlay h1{
-    font-size:48px;
-    margin-bottom:15px;
+.hero-content h1{
+    font-size:55px;
+    margin-bottom:20px;
 }
 
-.overlay p{
-    margin-bottom:25px;
-    font-size:18px;
+.hero-content p{
+    color:#d8d8d8;
+    line-height:28px;
+    margin-bottom:30px;
 }
 
 button{
-    background:#e10600;
-    color:white;
-    border:none;
     padding:15px 35px;
+    background:#5a5a5a;
+    border:none;
+    color:white;
+    font-size:17px;
     border-radius:6px;
     cursor:pointer;
-    font-size:18px;
+    transition:.3s;
 }
 
 button:hover{
-    background:#ff2d2d;
+    background:#7a7a7a;
 }
 
-.section{
-    padding:60px;
+/* Cards */
+
+section{
+    padding:70px;
+}
+
+.title{
     text-align:center;
+    font-size:40px;
+    margin-bottom:40px;
 }
 
 .cards{
@@ -87,35 +111,42 @@ button:hover{
     justify-content:center;
     gap:30px;
     flex-wrap:wrap;
-    margin-top:30px;
 }
 
 .card{
-    background:#222;
-    width:280px;
+    width:320px;
+    background:#1c1c1c;
     border-radius:12px;
     overflow:hidden;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
 }
 
 .card img{
     width:100%;
-    height:180px;
+    height:220px;
     object-fit:cover;
 }
 
-.card h3{
-    padding:15px;
+.card h2{
+    padding:20px;
 }
 
 .card p{
-    padding:0 15px 20px;
-    color:#ccc;
+    padding:0 20px 25px;
+    color:#cfcfcf;
 }
 
+/* Footer */
+
 footer{
-    background:#000;
+    background:#2a2a2a;
     text-align:center;
     padding:20px;
+    color:#d0d0d0;
 }
 </style>
 
@@ -124,48 +155,62 @@ footer{
 <body>
 
 <header>
-<div class="logo">🏎 F1 Tickets</div>
+
+<div class="logo">
+RaceX
+</div>
 
 <nav>
 <a href="#">Home</a>
-<a href="#">Grand Prix</a>
+<a href="#">Tickets</a>
 <a href="#">Schedule</a>
+<a href="#">Teams</a>
 <a href="#">Contact</a>
 </nav>
+
 </header>
 
-<section class="hero">
-<div class="overlay">
-<h1>Book Your Formula 1 Experience</h1>
-<p>Reserve tickets for your favorite Grand Prix around the world.</p>
+<div class="hero">
 
-<button onclick="alert('Booking page coming soon!')">
-Book Now
-</button>
+<div class="hero-content">
+
+<h1>Feel The Speed</h1>
+
+<p>
+Experience the excitement of world-class racing.
+Book your tickets and enjoy the thrill of the fastest motorsport.
+</p>
+
+<button>Book Tickets</button>
+
 </div>
-</section>
 
-<section class="section">
-<h2>Popular Grand Prix</h2>
+</div>
+
+<section>
+
+<h1 class="title">
+Upcoming Grand Prix
+</h1>
 
 <div class="cards">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80">
-<h3>Monaco GP</h3>
-<p>Luxury race weekend with premium seating.</p>
+<img src="car1.jpg">
+<h2>Monaco GP</h2>
+<p>Luxury street circuit and iconic racing weekend.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80">
-<h3>British GP</h3>
-<p>Experience the excitement at Silverstone.</p>
+<img src="car2.jpg">
+<h2>Silverstone GP</h2>
+<p>Experience the home of British motorsport.</p>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80">
-<h3>Italian GP</h3>
-<p>Feel the speed at the iconic Monza circuit.</p>
+<img src="car3.jpg">
+<h2>Monza GP</h2>
+<p>The Temple of Speed with passionate racing fans.</p>
 </div>
 
 </div>
@@ -173,7 +218,9 @@ Book Now
 </section>
 
 <footer>
-© 2026 F1 Ticket Booking Demo | Created for Learning
+
+© 2026 RaceX Tickets
+
 </footer>
 
 </body>
