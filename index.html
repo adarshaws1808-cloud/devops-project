@@ -148,6 +148,39 @@ footer{
     padding:20px;
     color:#d0d0d0;
 }
+
+/* Booking form */
+.booking-section{display:none;background:#151515}
+.booking-section.visible{display:block}
+.booking-panel{max-width:760px;margin:0 auto;padding:35px;background:#1c1c1c;border:1px solid #3b3b3b;border-radius:15px}
+.booking-panel .form-intro{color:#cfcfcf;line-height:1.6;margin-bottom:25px}
+.booking-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.form-field{display:flex;flex-direction:column;gap:8px}
+.form-field.full-width{grid-column:1/-1}
+.form-field label{color:#f2f2f2;font-weight:bold}
+.form-field input,.form-field select{width:100%;padding:13px;background:#101010;color:white;border:1px solid #555;border-radius:6px;font-size:16px}
+.form-field input:focus,.form-field select:focus{outline:2px solid #aaa;outline-offset:1px}
+.price-summary{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:25px;padding:20px;background:#101010;border-radius:8px}
+.price-summary span{color:#cfcfcf}
+.price-summary strong{font-size:28px}
+.booking-note{color:#bdbdbd;font-size:13px;line-height:1.5;margin-top:16px}
+.booking-message{display:none;margin-top:20px;padding:16px;background:#262626;border:1px solid #777;border-radius:8px;line-height:1.6}
+.booking-message.visible{display:block}
+.booking-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.booking-actions button.secondary{background:#333;border:1px solid #666}
+@media(max-width:700px){
+ header{height:auto;min-height:80px;padding:18px 20px;align-items:flex-start;gap:15px;flex-direction:column}
+ nav{display:flex;flex-wrap:wrap;gap:10px 16px}
+ nav a{margin-left:0;font-size:14px}
+ .hero{min-height:100vh;height:auto;padding:140px 20px 50px;background-position:center}
+ .hero-content{width:100%;padding:25px}
+ .hero-content h1{font-size:38px}
+ section{padding:45px 20px}
+ .booking-panel{padding:22px}
+ .booking-grid{grid-template-columns:1fr}
+ .form-field.full-width{grid-column:auto}
+}
+
 </style>
 
 </head>
@@ -168,6 +201,7 @@ RaceX
 <a href="#">Contact</a>
 <a href="#">About</a>
 <a href="#">Sign In</a>
+<a href="#">Help</a>
 </nav>
 
 
@@ -184,11 +218,58 @@ Experience the excitement of world-class racing.
 Book your tickets and enjoy the thrill of the fastest motorsport.
 </p>
 
-<button>Book Tickets</button>
+<button type="button" id="openBookingButton">Book Tickets</button>
 
 </div>
 
 </div>
+
+
+<section class="booking-section" id="booking">
+ <div class="booking-panel">
+  <h1 class="title">Book Your F1 Tickets</h1>
+  <p class="form-intro">Choose your Grand Prix and ticket type to see an estimated total. This is a demo booking form; it does not process payments or reserve real tickets.</p>
+  <form id="bookingForm">
+   <div class="booking-grid">
+    <div class="form-field">
+     <label for="grandPrix">Grand Prix</label>
+     <select id="grandPrix" name="grandPrix" required>
+      <option value="Monaco GP" selected>Monaco GP</option>
+      <option value="Silverstone GP">Silverstone GP</option>
+      <option value="Monza GP">Monza GP</option>
+     </select>
+    </div>
+    <div class="form-field">
+     <label for="ticketType">Ticket type</label>
+     <select id="ticketType" name="ticketType" required>
+      <option value="General Admission" data-price="100">General Admission — $100</option>
+      <option value="Grandstand" data-price="250" selected>Grandstand — $250</option>
+      <option value="VIP" data-price="600">VIP — $600</option>
+     </select>
+    </div>
+    <div class="form-field">
+     <label for="quantity">Number of tickets</label>
+     <input id="quantity" name="quantity" type="number" min="1" max="10" value="1" required>
+    </div>
+    <div class="form-field">
+     <label for="customerName">Your name</label>
+     <input id="customerName" name="customerName" type="text" autocomplete="name" placeholder="Enter your name" required>
+    </div>
+    <div class="form-field full-width">
+     <label for="customerEmail">Email address</label>
+     <input id="customerEmail" name="customerEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+    </div>
+   </div>
+   <div class="price-summary" aria-live="polite"><span>Estimated total</span><strong id="estimatedTotal">$250</strong></div>
+   <p class="booking-note">Demo prices only. No payment will be collected, and no real ticket reservation will be created.</p>
+   <div class="booking-actions">
+    <button type="submit">Confirm Demo Booking</button>
+    <button type="button" class="secondary" id="closeBookingButton">Close</button>
+   </div>
+  </form>
+  <div id="bookingMessage" class="booking-message" role="status" aria-live="polite"></div>
+ </div>
+</section>
 
 <section>
 
@@ -225,6 +306,55 @@ Upcoming Grand Prix
 © 2026 RaceX Tickets
 
 </footer>
+
+
+<script>
+(function () {
+ const bookingSection = document.getElementById("booking");
+ const openButton = document.getElementById("openBookingButton");
+ const closeButton = document.getElementById("closeBookingButton");
+ const form = document.getElementById("bookingForm");
+ const ticketType = document.getElementById("ticketType");
+ const quantity = document.getElementById("quantity");
+ const total = document.getElementById("estimatedTotal");
+ const message = document.getElementById("bookingMessage");
+
+ function updateTotal() {
+  const option = ticketType.options[ticketType.selectedIndex];
+  const price = Number(option.dataset.price);
+  const count = Math.min(10, Math.max(1, Number(quantity.value) || 1));
+  quantity.value = count;
+  total.textContent = "$" + (price * count).toLocaleString("en-US");
+ }
+
+ openButton.addEventListener("click", function () {
+  bookingSection.classList.add("visible");
+  bookingSection.scrollIntoView({behavior:"smooth", block:"start"});
+  document.getElementById("grandPrix").focus({preventScroll:true});
+ });
+ closeButton.addEventListener("click", function () {
+  bookingSection.classList.remove("visible");
+  message.classList.remove("visible");
+  document.querySelector(".hero").scrollIntoView({behavior:"smooth", block:"start"});
+ });
+ ticketType.addEventListener("change", updateTotal);
+ quantity.addEventListener("input", updateTotal);
+ form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+  const gp = document.getElementById("grandPrix").value;
+  const type = ticketType.value;
+  const count = Number(quantity.value);
+  const name = document.getElementById("customerName").value.trim();
+  message.textContent = "Thanks, " + name + "! Your demo booking request for " + count + " " + type +
+   " ticket(s) at " + gp + " has been shown successfully. Estimated total: " + total.textContent +
+   ". This is only a demo—no real reservation or payment was made.";
+  message.classList.add("visible");
+  message.scrollIntoView({behavior:"smooth", block:"nearest"});
+ });
+ updateTotal();
+})();
+</script>
 
 </body>
 </html>
